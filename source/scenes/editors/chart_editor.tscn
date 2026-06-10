@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bb32uhgcu055v"]
+
+[ext_resource type="Script" uid="uid://ceu656n8igpmm" path="res://source/scenes/editors/chart_editor.gd" id="1_8c3wk"]
+[ext_resource type="Script" uid="uid://dlnj1owdtcruj" path="res://source/backend/systems/conductor.gd" id="2_oq2wg"]
+
+[node name="ChartEditor" type="Node2D" unique_id=1960867832]
+script = ExtResource("1_8c3wk")
+
+[node name="menu_bar" type="MenuBar" parent="." unique_id=1190602162]
+layout_direction = 2
+offset_right = 77.0
+offset_bottom = 31.0
+scale = Vector2(1, 0.996875)
+text_direction = 1
+language = "en"
+
+[node name="File" type="PopupMenu" parent="menu_bar" unique_id=1637833829]
+oversampling_override = 1.0
+size = Vector2i(177, 100)
+item_count = 4
+item_0/text = "Save"
+item_0/id = 0
+item_1/text = "Save As"
+item_1/id = 1
+item_2/id = 2
+item_2/separator = true
+item_3/text = "Exit"
+item_3/id = 3
+
+[node name="Edit" type="PopupMenu" parent="menu_bar" unique_id=1744372175]
+oversampling_override = 1.0
+
+[node name="conductor" type="Node" parent="." unique_id=1812109308]
+script = ExtResource("2_oq2wg")
+metadata/_custom_type_script = "uid://dlnj1owdtcruj"
+
+[connection signal="index_pressed" from="menu_bar/File" to="." method="_on_file_index_pressed"]
+[connection signal="index_pressed" from="menu_bar/Edit" to="." method="_on_edit_index_pressed"]

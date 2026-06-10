@@ -1,0 +1,11 @@
+{
+	"name": "Artistic Expression",
+	"artist": "Kawai Sprite",
+	"checkpoints": [
+		{
+			"time": 0,
+			"bpm": 137,
+			"signture": [4, 4]
+		}
+	],
+}
