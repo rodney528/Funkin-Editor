@@ -5,6 +5,7 @@
 
 [node name="ChartEditor" type="Node2D" unique_id=1960867832]
 script = ExtResource("1_8c3wk")
+songOverride = "too-slow-encore-cover"
 
 [node name="menu_bar" type="MenuBar" parent="." unique_id=1190602162]
 layout_direction = 2
@@ -30,7 +31,7 @@ item_3/id = 3
 [node name="Edit" type="PopupMenu" parent="menu_bar" unique_id=1744372175]
 oversampling_override = 1.0
 
-[node name="conductor" type="Node" parent="." unique_id=1812109308]
+[node name="currentsong" type="Node" parent="." unique_id=1812109308]
 script = ExtResource("2_oq2wg")
 metadata/_custom_type_script = "uid://dlnj1owdtcruj"
 
