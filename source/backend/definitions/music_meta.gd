@@ -17,12 +17,10 @@ func _init(_id:String):
 		name = meta.get('name', _id)
 		artist = meta.get('artist', 'UNKNOWN')
 		checkpoints = []
+		var lastBpm = 100
 		for checkpoint in meta.get('checkpoints', []):
-			var lol = CheckpointMeta.new()
-			lol.time = checkpoint.get('time', 0)
-			lol.bpm = checkpoint.get('bpm', 100)
-			lol.signature = checkpoint.get('signature', [4, 4])
-			checkpoints.append(lol)
+			lastBpm = checkpoint.get('bpm', lastBpm)
+			checkpoints.append(CheckpointMeta.new(lastBpm, checkpoint.get('time', INF), checkpoint.get('signature', [4, 4])))
 		checkpoints.sort_custom(func(a, b): return a.time < b.time)
 
 func _to_string():

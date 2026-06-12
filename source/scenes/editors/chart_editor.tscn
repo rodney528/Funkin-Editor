@@ -12,8 +12,10 @@ layout_direction = 2
 offset_right = 77.0
 offset_bottom = 31.0
 scale = Vector2(1, 0.996875)
+accessibility_name = "menubar"
 text_direction = 1
 language = "en"
+metadata/_edit_use_anchors_ = true
 
 [node name="File" type="PopupMenu" parent="menu_bar" unique_id=1637833829]
 oversampling_override = 1.0
@@ -31,9 +33,45 @@ item_3/id = 3
 [node name="Edit" type="PopupMenu" parent="menu_bar" unique_id=1744372175]
 oversampling_override = 1.0
 
+[node name="songInfoTxt" type="Node2D" parent="." unique_id=1415106724]
+position = Vector2(1075, 30)
+
+[node name="header" type="Label" parent="songInfoTxt" unique_id=126101037]
+offset_right = 175.0
+offset_bottom = 153.0
+accessibility_name = "header"
+text = "
+Step:
+Beat:
+Measure:
+BPM:
+Time Signature:"
+autowrap_trim_flags = 0
+justification_flags = 0
+text_overrun_behavior = 1
+
+[node name="info" type="Label" parent="songInfoTxt" unique_id=22872880]
+offset_right = 175.0
+offset_bottom = 153.0
+accessibility_name = "info"
+text = "0:00.000 / 0:00.000 
+0
+0
+0
+100
+4 / 4"
+horizontal_alignment = 2
+autowrap_trim_flags = 0
+justification_flags = 0
+text_overrun_behavior = 1
+
 [node name="currentsong" type="Node" parent="." unique_id=1812109308]
 script = ExtResource("2_oq2wg")
 metadata/_custom_type_script = "uid://dlnj1owdtcruj"
 
 [connection signal="index_pressed" from="menu_bar/File" to="." method="_on_file_index_pressed"]
 [connection signal="index_pressed" from="menu_bar/Edit" to="." method="_on_edit_index_pressed"]
+[connection signal="beatHit" from="currentsong" to="." method="_on_beat_hit"]
+[connection signal="bpmHit" from="currentsong" to="." method="_on_bpm_change"]
+[connection signal="measureHit" from="currentsong" to="." method="_on_measure_hit"]
+[connection signal="stepHit" from="currentsong" to="." method="_on_step_hit"]

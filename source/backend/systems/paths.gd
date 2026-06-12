@@ -59,7 +59,12 @@ static func exists(path:String, searchType:SearchType = SearchType.NORMAL) -> bo
 	#print('[Paths.exists] "%s"' % [ASSETS_FOLDER + path])
 	return ResourceLoader.exists(ASSETS_FOLDER + path)
 
-static func image(path:String, exts:Array[String] = ['png'], searchType:SearchType = SearchType.NORMAL) -> String:
+static var IMAGE_EXTS:Array[String] = ['png']
+static func image(path:String, exts:Array[String] = IMAGE_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
 	return file('images/%s' % path, exts, searchType)
-static func music(path:String, exts:Array[String] = ['ogg', 'wav'], searchType:SearchType = SearchType.NORMAL) -> String:
+
+static var AUDIO_EXTS:Array[String] = ['ogg', 'wav']
+static func music(path:String, exts:Array[String] = AUDIO_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
 	return file('music/%s' % path, exts, searchType)
+static func sound(path:String, exts:Array[String] = AUDIO_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
+	return file('sounds/%s' % path, exts, searchType)

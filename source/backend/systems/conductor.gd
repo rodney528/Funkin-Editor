@@ -4,6 +4,8 @@ class_name Conductor extends Node
 
 ## The data the conductor uses to manage things.
 var data:MusicMeta
+## The bpm and time signature
+var checkpoints:Array[CheckpointMeta] = []
 
 ## The initial BPM.
 var initialBPM:float:
@@ -13,22 +15,25 @@ var currentBPM:float:
 	get: return getCheckpointFromTime(time).bpm
 var _bpm:float = 0
 
+var _fake_time:float = 0
 ## The current song time (in milliseconds).
 var time:float:
-	get: return _playback.get_playback_position() * 1000
+	get:
+		#if !playing: return _fake_time
+		return _playback.get_playback_position() * 1000
 	set(value):
-		var _value = wrapf(value, 0, length)
+		var _value = wrapf(value, 0, length + 1)
 		_playback.seek(_value / 1000)
-		return _value
+		_fake_time = _value
 var length:float:
 	get: return _playback.stream.get_length() * 1000
 
 ## The amount of steps into the song.
-var curStep:int
+var curStep:int = 0
 ## The amount of beats into the song.
-var curBeat:int
+var curBeat:int = 0
 ## The amount of measures into the song.
-var curMeasure:int
+var curMeasure:int = 0
 
 ## The same as "curStep", but as a percentage.
 var curStepFloat:float
@@ -48,90 +53,98 @@ var stepsPerMeasure:int:
 	get: return getCheckpointFromTime(time).stepsPerMeasure
 
 ## The amount of steps into the song (in milliseconds).
-var stepTime:float:
-	get: return getTimeInfoFromTime(time).stepTime
+var stepLength:float:
+	get: return getInfoFromTime(time).stepLength
 ## The amount of beats into the song (in milliseconds).
-var beatTime:float:
-	get: return getTimeInfoFromTime(time).beatTime
+var beatLength:float:
+	get: return getInfoFromTime(time).beatLength
 ## The amount of measures into the song (in milliseconds).
-var measureTime:float:
-	get: return getTimeInfoFromTime(time).measureTime
+var measureLength:float:
+	get: return getInfoFromTime(time).measureLength
 
-## Emitted whenever a step as passed.
-signal stepHit(beat:int)
-## Emitted whenever a beat as passed.
-signal beatHit(step:int)
-## Emitted whenever a measure as passed.
+## Emitted whenever a step has passed.
+signal stepHit(step:int)
+## Emitted whenever a beat has passed.
+signal beatHit(beat:int)
+## Emitted whenever a measure has passed.
 signal measureHit(measure:int)
+
+## Emitted whenever a bpm change has passed.
+signal bpmHit(checkpoint:CheckpointMeta)
 
 ## Whether the conductor is current playing or not.
 var playing:bool:
-	get: return !_playback.stream_paused
-	set(value):
-		_playback.stream_paused = !value
-		return !value
+	get: return !_playback.stream_paused or _playback.playing
+	set(value): _playback.stream_paused = !value
 ## The volume of the conductor.
 var volume:float = 1:
 	get: return _playback.volume_linear
-	set(value):
-		_playback.volume_linear = value
-		return value
+	set(value): _playback.volume_linear = value
 ## Wether the conductor audio will loop.
-var looped:bool = false
+var loop:bool = false
 
 func _ready():
-	_bpm = initialBPM
-	_playback.stream = AudioStreamSynchronized.new()
 	_playback.bus = 'Music'
+	_playback.stream = AudioStreamSynchronized.new()
+	_playback.finished.connect(func():
+		play(loop and 0 or length, volume)
+		if !loop: playing = false
+	)
+	checkpoints.sort_custom(func(a, b): return a.time < b.time)
 	add_child(_playback)
 
+var process_anyway:bool = false
+var _prev_checkpoint:CheckpointMeta
+var _current_checkpoint:CheckpointMeta
 func _process(_delta:float):
-	if !data: return
-	if !playing or !_playback.playing: return
-	var checkpoint = getCheckpointFromTime(time)
-	curStepFloat = (time - checkpoint.time) / stepTime;
+	if playing: _fake_time = time
+	if !playing or process_anyway: return
+	if _current_checkpoint: _prev_checkpoint = _current_checkpoint
+	_current_checkpoint = getCheckpointFromTime(time)
+	curStepFloat = getStepFromTime(time) + ((time - _current_checkpoint.time) / stepLength);
 	curBeatFloat = curStepFloat / stepsPerBeat;
 	curMeasureFloat = curBeatFloat / beatsPerMeasure;
-	_bpm = checkpoint.bpm
+	_bpm = _current_checkpoint.bpm
+	
+	if _prev_checkpoint:
+		if _prev_checkpoint.bpm != _current_checkpoint.bpm:
+			bpmHit.emit(_current_checkpoint)
+	else: bpmHit.emit(_current_checkpoint)
 	
 	var lastStep = curStep
 	var lastBeat = curBeat
 	var lastMeasure = curMeasure
 	if floor(curStepFloat) != lastStep:
 		curStep = floor(curStepFloat)
-		for i in range(lastStep, curStep + 1):
+		for i in range(lastStep + 1, curStep + 1):
 			stepHit.emit(i)
 	if floor(curBeatFloat) != lastBeat:
 		curBeat = floor(curBeatFloat)
-		for i in range(lastBeat, curBeat + 1):
+		for i in range(lastBeat + 1, curBeat + 1):
 			beatHit.emit(i)
 	if floor(curMeasureFloat) != lastMeasure:
 		curMeasure = floor(curMeasureFloat)
-		for i in range(lastMeasure, curMeasure + 1):
+		for i in range(lastMeasure + 1, curMeasure + 1):
 			measureHit.emit(i)
-	_playback.finished.connect(func(): if looped: play(0, volume))
 
 var _index = 0
 func _addResource(res:AudioStream):
 	_playback.stream.stream_count = _index + 1
 	_playback.stream.set_sync_stream(_index, res)
-	print(_index)
 	_index += 1
 
 ## Loads a song via its "id".
-func loadMusic(id:String, loop:bool = false):
+func loadMusic(id:String, _loop:bool = false):
 	_reset()
 	var res:AudioStream = load(Paths.music('%s/audio' % id))
 	if res: _addResource(res)
-	for folder in ResourceLoader.list_directory('res://assets/music/%s' % id):
-		if folder.begins_with('audio'):
-			print(Paths.music('%s/%s' % [id, folder]))
-			var _res:AudioStream = load(Paths.music('%s/%s' % [id, folder]))
-			if _res: _addResource(_res)
-	looped = loop
+	loop = _loop
 	data = MusicMeta.new(id)
-	print('[Conductor.loadMusic] Loaded song "%s [%s]".' % [data.name, id])
-	# apply bpm shit here
+	print('[Conductor.loadMusic] Loaded song "%s" [%s].' % [data.name, id])
+	checkpoints.resize(0) # clears any existing checkpoints
+	checkpoints.append_array(data.checkpoints) # feeds it the *new* songs checkpoints
+	print('[Conductor.loadMusic] Registered Checkpoints: %s' % [checkpoints])
+	_bpm = initialBPM
 
 ## Plays the song from a specific time.
 func play(_time:float = 0, _volume:float = 1):
@@ -139,7 +152,29 @@ func play(_time:float = 0, _volume:float = 1):
 	else: _playback.play(_time / 1000)
 	volume = _volume
 
-func getTimeInfoFromTime(_time:float) -> TimeInfo:
+func getStepFromTime(_time:float = 0) -> float:
+	var _step:float = 0
+	if checkpoints.size() == 0: return _step
+	var _tracked_bpm:float = initialBPM
+	var last_time:float = 0
+	for checkpoint in checkpoints:
+		var new_time: float = checkpoint.time + 0
+		if _time >= new_time:
+			var _step_crochet:float = (60000 / _tracked_bpm) / checkpoint.stepsPerBeat
+			_step += (new_time - last_time) / _step_crochet
+			last_time = new_time
+			_tracked_bpm = checkpoint.bpm
+		else: break
+	return _step
+func getCheckpointFromTime(_time:float) -> CheckpointMeta:
+	var change = CheckpointMeta.new(_bpm, _time)
+	if checkpoints.size() == 1:
+		return checkpoints[0]
+	for checkpoint in checkpoints:
+		if _time < checkpoint.time: continue
+		change = checkpoint
+	return change
+func getInfoFromTime(_time:float) -> TimeInfo:
 	var checkpoint = getCheckpointFromTime(_time)
 	var _beatTime:float = 60 / checkpoint.bpm * 1000
 	return TimeInfo.new(
@@ -147,20 +182,10 @@ func getTimeInfoFromTime(_time:float) -> TimeInfo:
 		_beatTime,
 		_beatTime * checkpoint.beatsPerMeasure
 	)
-func getCheckpointFromTime(_time:float) -> CheckpointMeta:
-	var change: CheckpointMeta = CheckpointMeta.new(0, _bpm)
-	if !data: return change
-	if data.checkpoints.size() == 1:
-		change = data.checkpoints[0]
-		return change
-	for checkpoint in data.checkpoints:
-		if _time < checkpoint.time: continue
-		change = checkpoint
-	return change
 
 func _reset():
 	playing = false
-	looped = false
+	loop = false
 	for i in _index:
 		_playback.stream.set_sync_stream(i, null)
 	_index = 0

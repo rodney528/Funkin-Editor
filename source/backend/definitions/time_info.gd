@@ -1,13 +1,13 @@
 class_name TimeInfo extends Node
 
-# The amount of steps into the song (in milliseconds).
-var stepTime:float
+## The amount of steps into the song (in milliseconds).
+var stepLength:float
 ## The amount of beats into the song (in milliseconds).
-var beatTime:float
+var beatLength:float
 ## The amount of measures into the song (in milliseconds).
-var measureTime:float
+var measureLength:float
 
-func _init(_stepTime:float, _beatTime:float, _measureTime:float):
-	stepTime = _stepTime
-	beatTime = _beatTime
-	measureTime = _measureTime
+func _init(_stepLength:float, _beatLength:float, _measureLength:float):
+	stepLength = _stepLength
+	beatLength = _beatLength
+	measureLength = _measureLength

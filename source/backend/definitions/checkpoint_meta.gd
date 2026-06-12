@@ -17,7 +17,7 @@ var stepsPerBeat:int:
 var stepsPerMeasure:int:
 	get: return beatsPerMeasure * stepsPerBeat
 
-func _init(_time:float = 0, _bpm:float = 100, _signature:Array = [4, 4]):
+func _init(_bpm:float, _time:float = 0, _signature:Array = [4, 4]):
 	time = _time
 	bpm = _bpm
 	while _signature.size() < 1: _signature.append(4)
