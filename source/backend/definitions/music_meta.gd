@@ -11,11 +11,7 @@ var id:String
 @export var checkpoints:Array[CheckpointMeta] = []
 
 static func create(_id:String) -> MusicMeta:
-	#var tresMeta = load(Paths.music('%s/audio' % _id, ['tres'])); if tresMeta: return tresMeta
-	var jsonPath = Paths.music('%s/audio' % _id, ['json'])
-	var fileAccess = FileAccess.open(jsonPath, FileAccess.READ)
-	if !fileAccess: return load(Paths.music('%s/audio' % _id, ['tres']))
-	var data:Variant = JSON.parse_string(fileAccess.get_as_text())
+	var data:Variant = Assets.json('music/%s/audio' % _id)
 	if data:
 		var meta = MusicMeta.new()
 		meta.id = _id
@@ -27,7 +23,12 @@ static func create(_id:String) -> MusicMeta:
 			meta.checkpoints.append(CheckpointMeta.new(lastBpm, checkpoint.get('time', INF), checkpoint.get('signature', [4, 4])))
 		meta.checkpoints.sort_custom(func(a, b): return a.time < b.time)
 		return meta
-	return null
+	var tresMeta:MusicMeta = ResourceLoader.load(Paths.music('%s/audio' % _id, ['tres']), 'MusicMeta')
+	if tresMeta: return tresMeta
+	var blankMeta = MusicMeta.new()
+	blankMeta.id = Global.NONE
+	blankMeta.name = Global.NONE
+	return blankMeta
 
 func _to_string() -> String:
 	return 'MusicMeta(Song Name: "%s", Artist: "%s", Initial Checkpoint: %s)' % [name, artist, checkpoints[0]]

@@ -1,5 +1,7 @@
 extends Node
 
+var NONE = '[NONE]'
+
 var bgMusic = Conductor.new()
 var _music_vol_tween
 

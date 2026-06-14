@@ -23,6 +23,8 @@ buses/default_bus_layout="uid://u7kq7i7rurux"
 
 Global="*uid://cujg4x1xgkgf2"
 StatsOverlay="*uid://bq0ck54euhkci"
+Assets="*uid://chg6v134lo6f7"
+Paths="*uid://dj8nmsn2swid5"
 
 [display]
 
