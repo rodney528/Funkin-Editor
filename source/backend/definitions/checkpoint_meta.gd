@@ -1,18 +1,20 @@
 class_name CheckpointMeta extends Resource
 
 ## The time of the change (in milliseconds).
-var time:float
+@export var time:float
 ## The BPM of the change.
-var bpm:float
+@export var bpm:float = 100
 ## The time signature of the change.
 var signature:Array
 
 ## The time signature numerator.
-var beatsPerMeasure:int:
+@export var beatsPerMeasure:int = 4:
 	get: return signature[0]
+	set(value): signature[0] = value
 ## The time signature denominator.
-var stepsPerBeat:int:
+@export var stepsPerBeat:int = 4:
 	get: return signature[1]
+	set(value): signature[1] = value
 
 var stepsPerMeasure:int:
 	get: return beatsPerMeasure * stepsPerBeat

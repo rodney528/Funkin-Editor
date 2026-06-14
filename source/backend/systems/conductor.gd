@@ -158,7 +158,7 @@ func loadMusic(id:String, _loop:bool = false):
 	var res:AudioStream = load(path)
 	if res: _addAudioStream(res)
 	loop = _loop
-	data = MusicMeta.new(id)
+	data = MusicMeta.create(id)
 	print('[Conductor.loadMusic] Loaded song "%s" [%s].' % [data.name, id])
 	checkpoints.resize(0) # clears any existing checkpoints
 	checkpoints.append_array(data.checkpoints) # feeds it the *new* songs checkpoints
