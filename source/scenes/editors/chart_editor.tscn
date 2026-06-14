@@ -5,21 +5,26 @@
 
 [node name="ChartEditor" type="Node2D" unique_id=1960867832]
 script = ExtResource("1_8c3wk")
-songOverride = "too-slow-encore-cover"
+_songOverride = "too-slow-encore-cover"
+_forcedExtraTracks = PackedStringArray("sonic", "bf")
 
-[node name="menu_bar" type="MenuBar" parent="." unique_id=1190602162]
+[node name="currentsong" type="Node" parent="." unique_id=1812109308]
+script = ExtResource("2_oq2wg")
+metadata/_custom_type_script = "uid://dlnj1owdtcruj"
+
+[node name="menu_bar" type="MenuBar" parent="." unique_id=1190602162 groups=["stats-reactor"]]
 layout_direction = 2
 offset_right = 77.0
 offset_bottom = 31.0
 scale = Vector2(1, 0.996875)
 accessibility_name = "menubar"
-text_direction = 1
 language = "en"
 metadata/_edit_use_anchors_ = true
 
-[node name="File" type="PopupMenu" parent="menu_bar" unique_id=1637833829]
+[node name="File" type="PopupMenu" parent="menu_bar" unique_id=1637833829 groups=["stats-reactor"]]
 oversampling_override = 1.0
 size = Vector2i(177, 100)
+allow_search = false
 item_count = 4
 item_0/text = "Save"
 item_0/id = 0
@@ -30,16 +35,60 @@ item_2/separator = true
 item_3/text = "Exit"
 item_3/id = 3
 
-[node name="Edit" type="PopupMenu" parent="menu_bar" unique_id=1744372175]
+[node name="Edit" type="PopupMenu" parent="menu_bar" unique_id=1744372175 groups=["stats-reactor"]]
 oversampling_override = 1.0
+allow_search = false
 
-[node name="songInfoTxt" type="Node2D" parent="." unique_id=1415106724]
-position = Vector2(1075, 30)
+[node name="rateTxt" type="Label" parent="." unique_id=1232678535]
+offset_left = 855.0
+offset_top = 2.0
+offset_right = 951.0
+offset_bottom = 25.0
+accessibility_name = "rateTxt"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+text = "Rate:  1"
+horizontal_alignment = 2
+autowrap_trim_flags = 0
+justification_flags = 0
+language = "en"
+metadata/_edit_use_anchors_ = true
+
+[node name="rate_slider" type="HSlider" parent="." unique_id=1496007953]
+offset_left = 958.0
+offset_top = 6.0
+offset_right = 1269.0
+offset_bottom = 22.0
+focus_mode = 0
+accessibility_name = "rateslider"
+min_value = 0.1
+max_value = 5.0
+step = 0.05
+value = 1.0
+scrollable = false
+tick_count = 12
+ticks_on_borders = true
+ticks_position = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="songInfoTxt" type="Control" parent="." unique_id=805225570]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1058.0
+offset_top = 30.0
+offset_right = 1058.0
+offset_bottom = 30.0
+accessibility_name = "songInfoText"
+metadata/_edit_use_anchors_ = true
 
 [node name="header" type="Label" parent="songInfoTxt" unique_id=126101037]
-offset_right = 175.0
+layout_mode = 0
+offset_right = 121.0
 offset_bottom = 153.0
+scale = Vector2(1.0024661, 1)
 accessibility_name = "header"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 text = "
 Step:
 Beat:
@@ -48,30 +97,54 @@ BPM:
 Time Signature:"
 autowrap_trim_flags = 0
 justification_flags = 0
-text_overrun_behavior = 1
+language = "en"
+metadata/_edit_use_anchors_ = true
 
 [node name="info" type="Label" parent="songInfoTxt" unique_id=22872880]
-offset_right = 175.0
-offset_bottom = 153.0
+layout_mode = 0
+offset_left = 1.6212463e-05
+offset_top = 1.0
+offset_right = 195.8893
+offset_bottom = 154.0
+scale = Vector2(1.0024661, 1)
 accessibility_name = "info"
-text = "0:00.000 / 0:00.000 
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+text = "0:00.000  /  0:00.000
 0
 0
 0
 100
-4 / 4"
+4  /  4"
 horizontal_alignment = 2
 autowrap_trim_flags = 0
 justification_flags = 0
-text_overrun_behavior = 1
+language = "en"
+metadata/_edit_use_anchors_ = true
 
-[node name="currentsong" type="Node" parent="." unique_id=1812109308]
-script = ExtResource("2_oq2wg")
-metadata/_custom_type_script = "uid://dlnj1owdtcruj"
+[node name="time_slider" type="HSlider" parent="." unique_id=2005502349]
+offset_top = 705.0
+offset_right = 1280.0
+offset_bottom = 721.0
+focus_mode = 0
+accessibility_name = "timeslider"
+max_value = 1.0
+step = 0.0
+scrollable = false
+tick_count = 100
+ticks_position = 3
 
-[connection signal="index_pressed" from="menu_bar/File" to="." method="_on_file_index_pressed"]
-[connection signal="index_pressed" from="menu_bar/Edit" to="." method="_on_edit_index_pressed"]
 [connection signal="beatHit" from="currentsong" to="." method="_on_beat_hit"]
 [connection signal="bpmHit" from="currentsong" to="." method="_on_bpm_change"]
 [connection signal="measureHit" from="currentsong" to="." method="_on_measure_hit"]
 [connection signal="stepHit" from="currentsong" to="." method="_on_step_hit"]
+[connection signal="mouse_entered" from="menu_bar" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="menu_bar" to="." method="_on_mouse_exited"]
+[connection signal="index_pressed" from="menu_bar/File" to="." method="_on_file_index_pressed"]
+[connection signal="mouse_entered" from="menu_bar/File" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="menu_bar/File" to="." method="_on_mouse_exited"]
+[connection signal="index_pressed" from="menu_bar/Edit" to="." method="_on_edit_index_pressed"]
+[connection signal="mouse_entered" from="menu_bar/Edit" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="menu_bar/Edit" to="." method="_on_mouse_exited"]
+[connection signal="value_changed" from="rate_slider" to="." method="_on_rate_slider_value_changed"]
+[connection signal="value_changed" from="time_slider" to="." method="_on_time_slider_value_changed"]

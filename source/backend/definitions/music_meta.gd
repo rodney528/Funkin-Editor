@@ -23,5 +23,5 @@ func _init(_id:String):
 			checkpoints.append(CheckpointMeta.new(lastBpm, checkpoint.get('time', INF), checkpoint.get('signature', [4, 4])))
 		checkpoints.sort_custom(func(a, b): return a.time < b.time)
 
-func _to_string():
-	return 'MusicMeta(name: "%s", artist: "%s", init checkpoint: %s)' % [name, artist, checkpoints[0]]
+func _to_string() -> String:
+	return 'MusicMeta(Song Name: "%s", Artist: "%s", Initial Checkpoint: %s)' % [name, artist, checkpoints[0]]

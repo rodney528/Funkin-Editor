@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ycolg65cnyev"]
+
+[ext_resource type="Script" uid="uid://ds251wkbvvt6n" path="res://source/scenes/play_test_scene.gd" id="1_u2ks6"]
+[ext_resource type="Script" uid="uid://dlnj1owdtcruj" path="res://source/backend/systems/conductor.gd" id="2_bjqp0"]
+
+[node name="PlayTestScene" type="Node2D" unique_id=2098192738]
+script = ExtResource("1_u2ks6")
+
+[node name="bg" type="ColorRect" parent="." unique_id=891506325]
+offset_right = 1280.0
+offset_bottom = 720.0
+accessibility_name = "bg"
+color = Color(0, 0, 0, 0.6745098)
+
+[node name="currentsong" type="Node" parent="." unique_id=1013494588]
+script = ExtResource("2_bjqp0")
+metadata/_custom_type_script = "uid://dlnj1owdtcruj"

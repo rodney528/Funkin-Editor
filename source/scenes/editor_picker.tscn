@@ -18,6 +18,7 @@ offset_right = 44.5
 offset_bottom = 44.5
 grow_horizontal = 2
 grow_vertical = 2
+accessibility_name = "editorsList"
 auto_width = true
 auto_height = true
 item_count = 3
@@ -28,4 +29,25 @@ item_2/text = "Stage"
 item_2/disabled = true
 metadata/_edit_use_anchors_ = true
 
+[node name="mute_button" type="CheckButton" parent="." unique_id=253066939]
+offset_left = 549.0
+offset_top = -329.0
+offset_right = 593.0
+offset_bottom = -305.0
+accessibility_name = "mutebutton"
+
+[node name="mute_txt" type="Label" parent="." unique_id=408956706]
+offset_left = 399.0
+offset_top = -329.0
+offset_right = 542.0
+offset_bottom = -306.0
+accessibility_name = "mutetxt"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+text = "Mute Menu Music:"
+autowrap_trim_flags = 0
+justification_flags = 0
+language = "en"
+
 [connection signal="item_activated" from="editorsList" to="." method="_on_editors_item_activated"]
+[connection signal="toggled" from="mute_button" to="." method="_on_mute_button_toggled"]

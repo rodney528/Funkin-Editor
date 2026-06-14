@@ -17,14 +17,13 @@ var _bpm:float = 0
 
 var _fake_time:float = 0
 ## The current song time (in milliseconds).
-var time:float:
+var time:float = 0:
 	get:
-		#if !playing: return _fake_time
+		if !playing: return _fake_time
 		return _playback.get_playback_position() * 1000
 	set(value):
-		var _value = wrapf(value, 0, length + 1)
-		_playback.seek(_value / 1000)
-		_fake_time = _value
+		_playback.seek(value / 1000)
+		_fake_time = value
 var length:float:
 	get: return _playback.stream.get_length() * 1000
 
@@ -75,11 +74,26 @@ signal bpmHit(checkpoint:CheckpointMeta)
 ## Whether the conductor is current playing or not.
 var playing:bool:
 	get: return !_playback.stream_paused or _playback.playing
-	set(value): _playback.stream_paused = !value
+	set(value):
+		# figure out "_fake_time" set
+		_playback.stream_paused = !value
+		time = _fake_time
+var muted:bool = false:
+	set(value):
+		muted = value
+		volume = volume
+var _internal_volume:float = 1
 ## The volume of the conductor.
 var volume:float = 1:
-	get: return _playback.volume_linear
-	set(value): _playback.volume_linear = value
+	get: return _internal_volume
+	set(value):
+		_internal_volume = value
+		if muted: _playback.volume_linear = 0
+		else: _playback.volume_linear = _internal_volume
+## How fast the song should play.
+var rate:float = 1:
+	get: return _playback.pitch_scale
+	set(value): _playback.pitch_scale = value
 ## Wether the conductor audio will loop.
 var loop:bool = false
 
@@ -87,8 +101,10 @@ func _ready():
 	_playback.bus = 'Music'
 	_playback.stream = AudioStreamSynchronized.new()
 	_playback.finished.connect(func():
-		play(loop and 0 or length, volume)
-		if !loop: playing = false
+		play(0, volume)
+		if !loop:
+			playing = false
+			time = length
 	)
 	checkpoints.sort_custom(func(a, b): return a.time < b.time)
 	add_child(_playback)
@@ -97,8 +113,8 @@ var process_anyway:bool = false
 var _prev_checkpoint:CheckpointMeta
 var _current_checkpoint:CheckpointMeta
 func _process(_delta:float):
+	if !(process_anyway or playing): return
 	if playing: _fake_time = time
-	if !playing or process_anyway: return
 	if _current_checkpoint: _prev_checkpoint = _current_checkpoint
 	_current_checkpoint = getCheckpointFromTime(time)
 	curStepFloat = getStepFromTime(time) + ((time - _current_checkpoint.time) / stepLength);
@@ -128,7 +144,7 @@ func _process(_delta:float):
 			measureHit.emit(i)
 
 var _index = 0
-func _addResource(res:AudioStream):
+func _addAudioStream(res:AudioStream):
 	_playback.stream.stream_count = _index + 1
 	_playback.stream.set_sync_stream(_index, res)
 	_index += 1
@@ -136,15 +152,25 @@ func _addResource(res:AudioStream):
 ## Loads a song via its "id".
 func loadMusic(id:String, _loop:bool = false):
 	_reset()
-	var res:AudioStream = load(Paths.music('%s/audio' % id))
-	if res: _addResource(res)
+	var path = Paths.music('%s/audio' % id)
+	if !Paths.exists(path, Paths.SearchType.RAW): return
+	else: print('[Conductor.loadMusic] Song "%s" doesn\'t exist.' % id)
+	var res:AudioStream = load(path)
+	if res: _addAudioStream(res)
 	loop = _loop
 	data = MusicMeta.new(id)
 	print('[Conductor.loadMusic] Loaded song "%s" [%s].' % [data.name, id])
 	checkpoints.resize(0) # clears any existing checkpoints
 	checkpoints.append_array(data.checkpoints) # feeds it the *new* songs checkpoints
-	print('[Conductor.loadMusic] Registered Checkpoints: %s' % [checkpoints])
+	print('[Conductor.loadMusic] Registered Checkpoints: %s' % CheckpointMeta.to_string_checkpoints(checkpoints, false))
 	_bpm = initialBPM
+
+func addTrack(suffix:String):
+	var path = Paths.music('%s/audio-%s' % [data.id, suffix])
+	if !Paths.exists(path, Paths.SearchType.RAW): return
+	else: print('[Conductor.addTrack] Song track "%s/audio-%s" doesn\'t exist.' % [data.id, suffix])
+	var res:AudioStream = load(path)
+	if res: _addAudioStream(res)
 
 ## Plays the song from a specific time.
 func play(_time:float = 0, _volume:float = 1):

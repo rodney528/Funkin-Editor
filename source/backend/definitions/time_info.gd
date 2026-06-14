@@ -11,3 +11,6 @@ func _init(_stepLength:float, _beatLength:float, _measureLength:float):
 	stepLength = _stepLength
 	beatLength = _beatLength
 	measureLength = _measureLength
+
+func _to_string() -> String:
+	return 'TimeInfo(Step Length: "%s", Beat Length: "%s", Measure Length: %s)' % [stepLength, beatLength, measureLength]
