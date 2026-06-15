@@ -1,6 +1,11 @@
+@icon('res://_assets/AudioStream.svg')
 class_name Conductor extends Node
 
 @onready var _playback = AudioStreamPlayer.new()
+ 
+# mainly for testing, before strumlines were added and shit
+@export var _songOverride:String
+@export var _forcedExtraTracks:PackedStringArray
 
 ## The data the conductor uses to manage things.
 var data:MusicMeta
@@ -108,8 +113,15 @@ func _ready():
 	)
 	checkpoints.sort_custom(func(a, b): return a.time < b.time)
 	add_child(_playback)
+	
+	if Paths.exists(Paths.music('%s/audio' % _songOverride, ['json']), Paths.SearchType.RAW):
+		loadMusic(_songOverride)
+		for suffix in _forcedExtraTracks:
+			addTrack(suffix)
+		play()
+		playing = false
 
-var process_anyway:bool = false
+@export var process_anyway:bool = false
 var _prev_checkpoint:CheckpointMeta
 var _current_checkpoint:CheckpointMeta
 func _process(_delta:float):

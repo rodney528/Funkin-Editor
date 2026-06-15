@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://7sm2c4pfs7ow"]
+
+[ext_resource type="Texture2D" uid="uid://dsx1ymadduo2x" path="res://assets/images/arrows/base/strum confirm0001.png" id="1_hxfs8"]
+[ext_resource type="Texture2D" uid="uid://5j4usvhhlvpw" path="res://assets/images/arrows/base/strum confirm0002.png" id="2_1tlv8"]
+[ext_resource type="Texture2D" uid="uid://oo00g2n6a5cp" path="res://assets/images/arrows/base/strum confirm0003.png" id="3_hx1e4"]
+[ext_resource type="Texture2D" uid="uid://56utkycrypu4" path="res://assets/images/arrows/base/strum confirm0004.png" id="4_a5qi6"]
+[ext_resource type="Texture2D" uid="uid://c7sxasurjrc5v" path="res://assets/images/arrows/base/strum press0001.png" id="5_if4rq"]
+[ext_resource type="Texture2D" uid="uid://rsmt38o1q4dn" path="res://assets/images/arrows/base/strum press0002.png" id="6_boo8p"]
+[ext_resource type="Texture2D" uid="uid://d3fbg8leyd2t2" path="res://assets/images/arrows/base/strum press0003.png" id="7_jhgmm"]
+[ext_resource type="Texture2D" uid="uid://bnjm7u4yo4r4" path="res://assets/images/arrows/base/strum press0004.png" id="8_ge80k"]
+[ext_resource type="Texture2D" uid="uid://de3ok50dvkjuu" path="res://assets/images/arrows/base/strum static.png" id="9_06m2o"]
+[ext_resource type="Script" uid="uid://bcxx7d04cba2u" path="res://source/gameplay/arrows/strum.gd" id="10_kj1sx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lvqgl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hxfs8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_1tlv8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hx1e4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_a5qi6")
+}],
+"loop": false,
+"name": &"confirm",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_if4rq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_boo8p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jhgmm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ge80k")
+}],
+"loop": false,
+"name": &"press",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_06m2o")
+}],
+"loop": false,
+"name": &"static",
+"speed": 24.0
+}]
+
+[node name="Strum" type="AnimatedSprite2D" unique_id=950038324]
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_lvqgl")
+animation = &"confirm"
+script = ExtResource("10_kj1sx")
+
+[connection signal="animation_changed" from="." to="." method="_on_animation_changed"]

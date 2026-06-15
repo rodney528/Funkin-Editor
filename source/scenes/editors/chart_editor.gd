@@ -1,24 +1,11 @@
 class_name ChartEditor extends Node2D
 
-# mainly for testing, before strumlines were added and shit
-@export var _songOverride:String
-@export var _forcedExtraTracks:PackedStringArray
-
 var _menutheme = Global.bgMusic
 var songTime:float:
 	get: return $currentsong.time
 	set(value):
 		$currentsong.time = value
 		return value
-
-func _ready():
-	if Paths.exists(Paths.music('%s/audio' % _songOverride, ['json']), Paths.SearchType.RAW):
-		$currentsong.loadMusic(_songOverride)
-		for suffix in _forcedExtraTracks:
-			$currentsong.addTrack(suffix)
-		$currentsong.play()
-		$currentsong.playing = false
-	$currentsong.process_anyway = true
 
 func initPlayTest():
 	get_tree().paused = true

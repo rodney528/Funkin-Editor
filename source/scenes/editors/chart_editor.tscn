@@ -5,11 +5,12 @@
 
 [node name="ChartEditor" type="Node2D" unique_id=1960867832]
 script = ExtResource("1_8c3wk")
-_songOverride = "too-slow-encore-cover"
-_forcedExtraTracks = PackedStringArray("sonic", "bf")
 
 [node name="currentsong" type="Node" parent="." unique_id=1812109308]
 script = ExtResource("2_oq2wg")
+_songOverride = "too-slow-encore-cover"
+_forcedExtraTracks = PackedStringArray("sonic", "bf")
+process_anyway = true
 metadata/_custom_type_script = "uid://dlnj1owdtcruj"
 
 [node name="menu_bar" type="MenuBar" parent="." unique_id=1190602162 groups=["stats-reactor"]]
