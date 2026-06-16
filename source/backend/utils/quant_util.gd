@@ -1,7 +1,7 @@
 extends Node
 
-static var _unknownQuantColor:Color = Color(0x606789ff)
-static var quantColors:PackedColorArray = [
+const _unknownQuantColor:Color = Color(0x606789ff)
+const quantColors:PackedColorArray = [
 	Color(0xff3535ff),
 	Color(0x536befff),
 	Color(0xc24b99ff),

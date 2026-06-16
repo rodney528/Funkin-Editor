@@ -1,6 +1,6 @@
 class_name Note extends Sprite2D
 
-static var dirAngles:PackedInt64Array = [0, 270, 90, 180]
+const dirAngles:PackedInt64Array = [0, 270, 90, 180]
 
 var field#:ArrowField
 var strum:Strum

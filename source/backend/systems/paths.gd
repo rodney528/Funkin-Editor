@@ -11,9 +11,9 @@ enum SearchType {
 }
 
 ## The assets folder path.
-var ASSETS_FOLDER:String = 'res://assets/'
+const ASSETS_FOLDER:String = 'res://assets/'
 ## The mods folder path.
-var MODS_FOLDER:String = 'res://mods/'
+const MODS_FOLDER:String = 'res://mods/'
 
 func _ready():
 	pass
@@ -59,11 +59,11 @@ func exists(path:String, searchType:SearchType = SearchType.NORMAL) -> bool:
 	#print('[Paths.exists] "%s"' % [ASSETS_FOLDER + path])
 	return ResourceLoader.exists(ASSETS_FOLDER + path)
 
-var IMAGE_EXTS:Array[String] = ['png']
+const IMAGE_EXTS:Array[String] = ['png']
 func image(path:String, exts:Array[String] = IMAGE_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
 	return file('images/%s' % path, exts, searchType)
 
-var AUDIO_EXTS:Array[String] = ['ogg', 'wav']
+const AUDIO_EXTS:Array[String] = ['ogg', 'wav']
 func music(path:String, exts:Array[String] = AUDIO_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
 	return file('music/%s' % path, exts, searchType)
 func sound(path:String, exts:Array[String] = AUDIO_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
