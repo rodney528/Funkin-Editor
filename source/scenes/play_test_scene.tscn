@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://ds251wkbvvt6n" path="res://source/scenes/play_test_scene.gd" id="1_u2ks6"]
 [ext_resource type="Script" uid="uid://dlnj1owdtcruj" path="res://source/backend/systems/conductor.gd" id="2_bjqp0"]
 
-[node name="PlayTestScene" type="Node2D" unique_id=2098192738]
-process_mode = 3
+[node name="PlayTestScene" type="Node2D" unique_id=8824803]
 script = ExtResource("1_u2ks6")
+metadata/_custom_type_script = "uid://c7st7ryqusc0m"
 
 [node name="currentsong" type="Node" parent="." unique_id=1013494588]
 script = ExtResource("2_bjqp0")

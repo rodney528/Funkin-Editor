@@ -1,11 +1,11 @@
-extends Node2D
+class_name PlayTestScene extends Scene2D
 
 func _ready():
 	Global.bgMusic.playing = false
 
-func _process(_delta:float):
-	if Input.is_action_just_pressed('ui_cancel'):
+func _unhandled_input(event:InputEvent):
+	if event.is_action_pressed('ui_cancel'):
 		queue_free()
-		get_tree().paused = false
-		get_parent().get_node('currentsong').playing = false
+		Scene.scene.process_mode = Node.PROCESS_MODE_INHERIT
+		Scene.scene.get_node('currentsong').playing = false
 		Global.startVolTween()

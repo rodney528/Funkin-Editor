@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Funkin' Editor"
-run/main_scene="uid://c4js7rf68hl27"
+run/main_scene="uid://dnjrx1xe57hq4"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -25,12 +25,23 @@ Global="*uid://cujg4x1xgkgf2"
 StatsOverlay="*uid://bq0ck54euhkci"
 Assets="*uid://chg6v134lo6f7"
 Paths="*uid://dj8nmsn2swid5"
+KeyCountUtil="*uid://cg5ds5arrmht7"
 QuantUtil="*uid://d4n0r41j2kt3i"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+
+[file_customization]
+
+folder_colors={
+"res://_assets/": "gray",
+"res://assets/": "blue",
+"res://autoload/": "purple",
+"res://mods/": "green",
+"res://source/": "orange"
+}
 
 [input]
 

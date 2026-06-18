@@ -1,0 +1,52 @@
+[gd_resource type="Theme" format=3 uid="uid://d2ju6vnaa4aqm"]
+
+[ext_resource type="FontFile" uid="uid://5vtfi7gt7a1t" path="res://assets/fonts/vcr-jp.ttf" id="1_lvqnu"]
+[ext_resource type="StyleBox" uid="uid://bi5bkp82jdxjw" path="res://_assets/themes/button/style_box_hover.tres" id="2_emic0"]
+[ext_resource type="StyleBox" uid="uid://bqj560fngwdgq" path="res://_assets/themes/button/style_box_hover_pressed.tres" id="3_eatx5"]
+[ext_resource type="StyleBox" uid="uid://cviu7yeg0xdwx" path="res://_assets/themes/button/style_box.tres" id="4_5w4y6"]
+[ext_resource type="StyleBox" uid="uid://41h2g1u85q2l" path="res://_assets/themes/button/style_box_pressed.tres" id="5_1mx0p"]
+
+[resource]
+Button/font_sizes/font_size = 14
+Button/fonts/font = ExtResource("1_lvqnu")
+Button/styles/hover = ExtResource("2_emic0")
+Button/styles/hover_pressed = ExtResource("3_eatx5")
+Button/styles/normal = ExtResource("4_5w4y6")
+Button/styles/pressed = ExtResource("5_1mx0p")
+CheckBox/font_sizes/font_size = 14
+CheckBox/fonts/font = ExtResource("1_lvqnu")
+CheckButton/font_sizes/font_size = 14
+CheckButton/fonts/font = ExtResource("1_lvqnu")
+ColorPickerButton/font_sizes/font_size = 14
+ColorPickerButton/fonts/font = ExtResource("1_lvqnu")
+ItemList/font_sizes/font_size = 14
+ItemList/fonts/font = ExtResource("1_lvqnu")
+Label/font_sizes/font_size = 14
+Label/fonts/font = ExtResource("1_lvqnu")
+LineEdit/font_sizes/font_size = 14
+LineEdit/fonts/font = ExtResource("1_lvqnu")
+MenuBar/fonts/font = ExtResource("1_lvqnu")
+MenuBar/styles/hover = ExtResource("2_emic0")
+MenuBar/styles/hover_pressed = ExtResource("3_eatx5")
+MenuBar/styles/normal = ExtResource("4_5w4y6")
+MenuBar/styles/pressed = ExtResource("5_1mx0p")
+MenuButton/font_sizes/font_size = 14
+MenuButton/fonts/font = ExtResource("1_lvqnu")
+OptionButton/font_sizes/font_size = 14
+OptionButton/fonts/font = ExtResource("1_lvqnu")
+PopupMenu/font_sizes/font_separator_size = 14
+PopupMenu/font_sizes/font_size = 14
+PopupMenu/font_sizes/title_font_size = 14
+PopupMenu/fonts/font = ExtResource("1_lvqnu")
+PopupMenu/fonts/font_separator = ExtResource("1_lvqnu")
+PopupMenu/fonts/title_font = ExtResource("1_lvqnu")
+ProgressBar/font_sizes/font_size = 14
+ProgressBar/fonts/font = ExtResource("1_lvqnu")
+TabContainer/font_sizes/font_size = 14
+TabContainer/fonts/font = ExtResource("1_lvqnu")
+TextEdit/font_sizes/font_size = 14
+TextEdit/fonts/font = ExtResource("1_lvqnu")
+Tree/font_sizes/font_size = 14
+Tree/font_sizes/title_button_font_size = 12
+Tree/fonts/font = ExtResource("1_lvqnu")
+Tree/fonts/title_button_font = ExtResource("1_lvqnu")

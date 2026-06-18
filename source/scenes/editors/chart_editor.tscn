@@ -2,9 +2,12 @@
 
 [ext_resource type="Script" uid="uid://ceu656n8igpmm" path="res://source/scenes/editors/chart_editor.gd" id="1_8c3wk"]
 [ext_resource type="Script" uid="uid://dlnj1owdtcruj" path="res://source/backend/systems/conductor.gd" id="2_oq2wg"]
+[ext_resource type="Theme" uid="uid://d2ju6vnaa4aqm" path="res://_assets/themes/theme.tres" id="3_i1n7p"]
+[ext_resource type="LabelSettings" uid="uid://cyjr1dohwrsjy" path="res://_assets/themes/base_label_settings.tres" id="4_ogk2p"]
 
-[node name="ChartEditor" type="Node2D" unique_id=1960867832]
+[node name="ChartEditor" type="Node2D" unique_id=1053138376]
 script = ExtResource("1_8c3wk")
+metadata/_custom_type_script = "uid://c7st7ryqusc0m"
 
 [node name="currentsong" type="Node" parent="." unique_id=1812109308]
 script = ExtResource("2_oq2wg")
@@ -19,6 +22,7 @@ offset_right = 77.0
 offset_bottom = 31.0
 scale = Vector2(1, 0.996875)
 accessibility_name = "menubar"
+theme = ExtResource("3_i1n7p")
 language = "en"
 metadata/_edit_use_anchors_ = true
 
@@ -40,26 +44,22 @@ item_3/id = 3
 oversampling_override = 1.0
 allow_search = false
 
-[node name="rateTxt" type="Label" parent="." unique_id=1232678535]
-offset_left = 855.0
-offset_top = 2.0
-offset_right = 951.0
-offset_bottom = 25.0
-accessibility_name = "rateTxt"
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-text = "Rate:  1"
+[node name="rateTxt" type="Label" parent="." unique_id=1819544079]
+offset_left = 758.0
+offset_top = 7.0
+offset_right = 960.0
+offset_bottom = 28.0
+accessibility_name = "ratetxt"
+theme_override_font_sizes/font_size = 14
+text = "Rate: 1"
+label_settings = ExtResource("4_ogk2p")
 horizontal_alignment = 2
-autowrap_trim_flags = 0
-justification_flags = 0
-language = "en"
-metadata/_edit_use_anchors_ = true
 
-[node name="rate_slider" type="HSlider" parent="." unique_id=1496007953]
-offset_left = 958.0
-offset_top = 6.0
-offset_right = 1269.0
-offset_bottom = 22.0
+[node name="rate_slider" type="HSlider" parent="." unique_id=2077559452]
+offset_left = 965.0
+offset_top = 5.0
+offset_right = 1275.0
+offset_bottom = 21.0
 focus_mode = 0
 accessibility_name = "rateslider"
 min_value = 0.1
@@ -70,63 +70,49 @@ scrollable = false
 tick_count = 12
 ticks_on_borders = true
 ticks_position = 3
-metadata/_edit_use_anchors_ = true
 
 [node name="songInfoTxt" type="Control" parent="." unique_id=805225570]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1058.0
+offset_left = 1020.0
 offset_top = 30.0
-offset_right = 1058.0
+offset_right = 1020.0
 offset_bottom = 30.0
 accessibility_name = "songInfoText"
 metadata/_edit_use_anchors_ = true
 
-[node name="header" type="Label" parent="songInfoTxt" unique_id=126101037]
+[node name="header" type="Label" parent="songInfoTxt" unique_id=618561413]
 layout_mode = 0
-offset_right = 121.0
-offset_bottom = 153.0
-scale = Vector2(1.0024661, 1)
+offset_right = 240.0
+offset_bottom = 105.0
 accessibility_name = "header"
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
 text = "
 Step:
 Beat:
 Measure:
 BPM:
 Time Signature:"
-autowrap_trim_flags = 0
-justification_flags = 0
-language = "en"
-metadata/_edit_use_anchors_ = true
+label_settings = ExtResource("4_ogk2p")
 
-[node name="info" type="Label" parent="songInfoTxt" unique_id=22872880]
+[node name="info" type="Label" parent="songInfoTxt" unique_id=1023527722]
 layout_mode = 0
-offset_left = 1.6212463e-05
-offset_top = 1.0
-offset_right = 195.8893
-offset_bottom = 154.0
-scale = Vector2(1.0024661, 1)
+offset_right = 240.0
+offset_bottom = 105.0
 accessibility_name = "info"
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-text = "0:00.000  /  0:00.000
+text = "0:00.000 / 0:00.000
 0
 0
 0
 100
-4  /  4"
+4 / 4"
+label_settings = ExtResource("4_ogk2p")
 horizontal_alignment = 2
-autowrap_trim_flags = 0
-justification_flags = 0
-language = "en"
-metadata/_edit_use_anchors_ = true
 
 [node name="time_slider" type="HSlider" parent="." unique_id=2005502349]
-offset_top = 705.0
-offset_right = 1280.0
-offset_bottom = 721.0
+offset_left = 5.0
+offset_top = 700.0
+offset_right = 1275.0
+offset_bottom = 716.0
 focus_mode = 0
 accessibility_name = "timeslider"
 max_value = 1.0

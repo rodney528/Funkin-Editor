@@ -1,9 +1,20 @@
 class_name Strum extends AnimatedSprite2D
 
-var quantColor:Color = QuantUtil._unknownQuantColor
+var field:ArrowField
+
+var id:int
+
+var quantColor:Color = QuantUtil._unknownColor
+
+static var _create_id:int = 0
+static func create(_id:int) -> Strum:
+	_create_id = _id
+	return load('res://source/gameplay/arrows/strum.tscn').instantiate()
 
 func _ready():
-	pass
+	id = _create_id
 
 func _on_animation_changed():
-	modulate = (animation == 'static' if Color.WHITE else quantColor)
+	match animation: # allows press to be colorized without effecting void press
+		'static': modulate = Color.WHITE
+		'confirm': modulate = quantColor

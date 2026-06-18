@@ -10,10 +10,10 @@ var alpha:float:
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 10000
-	#text.add_theme_font_override('font', load('res://assets/fonts/JetBrainsMono-Bold.ttf'))
-	#text.add_theme_font_size_override('font_size', 18)
-	text.add_theme_constant_override('outline_size', 10)
-	text.position = Vector2(10, 5)
+	text.add_theme_font_override('font', load('res://assets/fonts/funkin.ttf'))
+	text.add_theme_font_size_override('font_size', 20)
+	text.add_theme_constant_override('outline_size', 8)
+	text.position = Vector2(10, 10)
 	text.text = '0 FPS'
 	group.add_child(text)
 	add_child(group)

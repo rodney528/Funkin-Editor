@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://cyjr1dohwrsjy"]
+
+[ext_resource type="FontFile" uid="uid://cx7vd8i083o4k" path="res://assets/fonts/vcr-jp.ttf" id="1_d5l8m"]
+
+[resource]
+font = ExtResource("1_d5l8m")
+font_size = 14
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)

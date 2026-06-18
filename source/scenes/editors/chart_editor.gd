@@ -1,4 +1,4 @@
-class_name ChartEditor extends Node2D
+class_name ChartEditor extends Scene2D
 
 var _menutheme = Global.bgMusic
 var songTime:float:
@@ -8,9 +8,7 @@ var songTime:float:
 		return value
 
 func initPlayTest():
-	get_tree().paused = true
-	var subScene = load('res://source/scenes/play_test_scene.tscn').instantiate()
-	add_child(subScene)
+	loadSubScene('res://source/scenes/play_test_scene.tscn', Node.PROCESS_MODE_DISABLED)
 
 var _lastplaying = false
 func _process(_delta:float):
@@ -19,7 +17,7 @@ func _process(_delta:float):
 		if _lastplaying: _menutheme.playing = false
 		else: Global.startVolTween()
 	if _lastplaying: $time_slider.value = remap(songTime, 0, $currentsong.length, 0, 1)
-	$songInfoTxt/info.text = '%s  /  %s\n%s\n%s\n%s\n%s\n%s  /  %s' % [Global.toDisplayTime($currentsong.time / 1000, 3), Global.toDisplayTime($currentsong.length / 1000, 3), $currentsong.curStep, $currentsong.curBeat, $currentsong.curMeasure, Global.trimFloatDisplay($currentsong.currentBPM), $currentsong.beatsPerMeasure, $currentsong.stepsPerBeat]
+	$songInfoTxt/info.text = '%s / %s\n%s\n%s\n%s\n%s\n%s / %s' % [Global.toDisplayTime($currentsong.time / 1000, 3), Global.toDisplayTime($currentsong.length / 1000, 3), $currentsong.curStep, $currentsong.curBeat, $currentsong.curMeasure, Global.trimFloatDisplay($currentsong.currentBPM), $currentsong.beatsPerMeasure, $currentsong.stepsPerBeat]
 
 func _unhandled_input(event:InputEvent):
 	if event.is_action_released('ui_home'): songTime = 0
@@ -50,7 +48,7 @@ func _on_file_index_pressed(index:int):
 			if _lastplaying:
 				Global.startVolTween()
 			$currentsong.playing = false
-			get_tree().change_scene_to_file('res://source/scenes/editor_picker.tscn')
+			Scene.switchScene('res://source/scenes/editor_picker.tscn')
 
 func _on_edit_index_pressed(index:int):
 	var id = $menu_bar/Edit.get_item_text(index)
