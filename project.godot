@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="Funkin' Editor"
+config/version="0.0.0"
 run/main_scene="uid://dnjrx1xe57hq4"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [audio]

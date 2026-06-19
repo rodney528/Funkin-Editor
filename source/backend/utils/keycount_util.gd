@@ -1,3 +1,4 @@
+## This class handles all extra key related information.
 extends Node
 
 const MIN_KEYS = 1 ## The minimum amount of keys.

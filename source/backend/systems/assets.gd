@@ -1,8 +1,7 @@
+## Contains shortcut functions for getting object information.
 extends Node
 
-func _ready() -> void:
-	pass
-
+## Returns parsed json data.
 func json(path:String, searchType:Paths.SearchType = Paths.SearchType.NORMAL) -> Variant:
 	var jsonPath = Paths.file(path, ['json'], searchType)
 	var fileAccess = FileAccess.open(jsonPath, FileAccess.READ)

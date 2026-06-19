@@ -15,9 +15,6 @@ const ASSETS_FOLDER:String = 'res://assets/'
 ## The mods folder path.
 const MODS_FOLDER:String = 'res://mods/'
 
-func _ready():
-	pass
-
 func _extCheck(path:String, exts:Array[String]) -> String:
 	if exts.size() < 0:
 		#print('[Paths._extCheck] "%s"' % path)
@@ -31,6 +28,7 @@ func _extCheck(path:String, exts:Array[String]) -> String:
 				return lePath
 	return Global.NONE
 
+## Returns a path.
 func file(path:String, exts:Array[String] = [], searchType:SearchType = SearchType.NORMAL) -> String:
 	#print('[Paths.file] "%s", %s, %s' % [path, exts, searchType])
 	if searchType == SearchType.RAW:
@@ -43,6 +41,7 @@ func file(path:String, exts:Array[String] = [], searchType:SearchType = SearchTy
 	
 	return _extCheck(ASSETS_FOLDER + path, exts)
 
+## Checks if a file exists.
 func exists(path:String, searchType:SearchType = SearchType.NORMAL) -> bool:
 	#print('[Paths.file] "%s", %s' % [path, searchType])
 	if searchType == SearchType.RAW:
@@ -59,12 +58,22 @@ func exists(path:String, searchType:SearchType = SearchType.NORMAL) -> bool:
 	#print('[Paths.exists] "%s"' % [ASSETS_FOLDER + path])
 	return ResourceLoader.exists(ASSETS_FOLDER + path)
 
+## All images extensions.
 const IMAGE_EXTS:Array[String] = ['png']
+## All audio extensions.
+const AUDIO_EXTS:Array[String] = ['ogg', 'wav']
+
+## Returns the path of an image file.
 func image(path:String, exts:Array[String] = IMAGE_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
 	return file('images/%s' % path, exts, searchType)
 
-const AUDIO_EXTS:Array[String] = ['ogg', 'wav']
+## Returns the path of an audio file.
+func audio(path:String, exts:Array[String] = AUDIO_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
+	return file(path, exts, searchType)
+	
+## Returns the path of a song.
 func music(path:String, exts:Array[String] = AUDIO_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
-	return file('music/%s' % path, exts, searchType)
+	return audio('music/%s' % path, exts, searchType)
+## Returns the path of a sound.
 func sound(path:String, exts:Array[String] = AUDIO_EXTS, searchType:SearchType = SearchType.NORMAL) -> String:
-	return file('sounds/%s' % path, exts, searchType)
+	return audio('sounds/%s' % path, exts, searchType)

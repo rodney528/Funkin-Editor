@@ -6,12 +6,15 @@ var id:int
 
 var quantColor:Color = QuantUtil._unknownColor
 
-static var _create_id:int = 0
-static func create(_id:int) -> Strum:
+static var _create_field:ArrowField
+static var _create_id:int
+static func create(_field:ArrowField, _id:int) -> Strum:
+	_create_field = _field
 	_create_id = _id
 	return load('res://source/gameplay/arrows/strum.tscn').instantiate()
 
 func _ready():
+	field = _create_field
 	id = _create_id
 
 func _on_animation_changed():

@@ -3,12 +3,7 @@ class_name ChartEditor extends Scene2D
 var _menutheme = Global.bgMusic
 var songTime:float:
 	get: return $currentsong.time
-	set(value):
-		$currentsong.time = value
-		return value
-
-func initPlayTest():
-	loadSubScene('res://source/scenes/play_test_scene.tscn', Node.PROCESS_MODE_DISABLED)
+	set(value): $currentsong.time = value; return value
 
 var _lastplaying = false
 func _process(_delta:float):
@@ -38,7 +33,7 @@ func _unhandled_input(event:InputEvent):
 	if boundTime: songTime = clampf(songTime, 0, $currentsong.length)
 	$time_slider.value = remap(songTime, 0, $currentsong.length, 0, 1)
 	
-	if Input.is_key_pressed(KEY_F12): initPlayTest()
+	if Input.is_key_pressed(KEY_F12): loadSubScene('res://source/scenes/play_test_scene.tscn', Node.PROCESS_MODE_DISABLED)
 
 func _on_file_index_pressed(index:int):
 	var id = $menu_bar/File.get_item_text(index)

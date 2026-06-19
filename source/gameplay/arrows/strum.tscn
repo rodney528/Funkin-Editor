@@ -26,7 +26,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_a5qi6")
 }],
-"loop": false,
+"loop": 0,
 "name": &"confirm",
 "speed": 24.0
 }, {
@@ -43,7 +43,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("8_ge80k")
 }],
-"loop": false,
+"loop": 0,
 "name": &"press",
 "speed": 24.0
 }, {
@@ -51,7 +51,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("9_06m2o")
 }],
-"loop": false,
+"loop": 0,
 "name": &"static",
 "speed": 24.0
 }]

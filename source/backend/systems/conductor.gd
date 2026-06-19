@@ -1,7 +1,8 @@
 @icon('res://_assets/AudioStream.svg')
+## This class handles all song related shenanigans.
 class_name Conductor extends Node
 
-@onready var _playback = AudioStreamPlayer.new()
+var _playback = AudioStreamPlayer.new()
  
 # mainly for testing, before strumlines were added and shit
 @export var _songOverride:String
@@ -9,7 +10,7 @@ class_name Conductor extends Node
 
 ## The data the conductor uses to manage things.
 var data:MusicMeta
-## The bpm and time signature
+## The BPM and Time Signature.
 var checkpoints:Array[CheckpointMeta] = []
 
 ## The initial BPM.
@@ -29,6 +30,7 @@ var time:float = 0:
 	set(value):
 		_playback.seek(value / 1000)
 		_fake_time = value
+## The length of the song (in milliseconds).
 var length:float:
 	get: return _playback.stream.get_length() * 1000
 
@@ -46,23 +48,23 @@ var curBeatFloat:float
 ## The same as "curMeasure", but as a percentage.
 var curMeasureFloat:float
 
-## The current amount of *steps per beat* (time signature denominator).
+## The current amount of *steps per beat* (time signature *denominator*).
 var stepsPerBeat:int:
 	get: return getCheckpointFromTime(time).stepsPerBeat
-## The current amount of *beats per measure* (time signature numerator).
+## The current amount of *beats per measure* (time signature *numerator*).
 var beatsPerMeasure:int:
 	get: return getCheckpointFromTime(time).beatsPerMeasure
 ## The current amount of *steps per measure*.
 var stepsPerMeasure:int:
 	get: return getCheckpointFromTime(time).stepsPerMeasure
 
-## The amount of steps into the song (in milliseconds).
+## The length of a step (in milliseconds).
 var stepLength:float:
 	get: return getInfoFromTime(time).stepLength
-## The amount of beats into the song (in milliseconds).
+## The length of a beat (in milliseconds).
 var beatLength:float:
 	get: return getInfoFromTime(time).beatLength
-## The amount of measures into the song (in milliseconds).
+## The length of a measure (in milliseconds).
 var measureLength:float:
 	get: return getInfoFromTime(time).measureLength
 
@@ -76,13 +78,14 @@ signal measureHit(measure:int)
 ## Emitted whenever a bpm change has passed.
 signal bpmHit(checkpoint:CheckpointMeta)
 
-## Whether the conductor is current playing or not.
+## Whether the conductor is playing or not.
 var playing:bool:
 	get: return !_playback.stream_paused or _playback.playing
 	set(value):
 		# figure out "_fake_time" set
 		_playback.stream_paused = !value
 		time = _fake_time
+## Whether the conductor is muted or not.
 var muted:bool = false:
 	set(value):
 		muted = value
@@ -99,7 +102,7 @@ var volume:float = 1:
 var rate:float = 1:
 	get: return _playback.pitch_scale
 	set(value): _playback.pitch_scale = value
-## Wether the conductor audio will loop.
+## Wether the conductor audio will loop when it ends.
 var loop:bool = false
 
 func _ready():
@@ -121,7 +124,10 @@ func _ready():
 		play()
 		playing = false
 
+@export_group('Debug')
+## Wether the conductor should process checkpoint information when paused.
 @export var process_anyway:bool = false
+
 var _prev_checkpoint:CheckpointMeta
 var _current_checkpoint:CheckpointMeta
 func _process(_delta:float):

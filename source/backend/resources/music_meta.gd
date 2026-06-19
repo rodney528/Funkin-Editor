@@ -1,10 +1,11 @@
+## This class contains information for the music, BPM changes and all.
 class_name MusicMeta extends Resource
 
 ## The song id / folder name.
 var id:String
 
 ## The name of the song.
-@export var name:String
+@export_placeholder('INSERT SONG NAME HERE') var name:String
 ## The person (or people) who composed the song.
 @export var artist:String = 'UNKNOWN'
 ## The list of time changes in the song.

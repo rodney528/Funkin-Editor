@@ -1,6 +1,7 @@
 class_name EditorPicker extends Scene2D
 
 func _ready():
+	@warning_ignore('integer_division')
 	position = Vector2(get_window().size.x / 2, get_window().size.y / 2)
 	$mute_button.button_pressed = Global.bgMusic.muted
 
